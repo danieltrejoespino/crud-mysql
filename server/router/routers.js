@@ -1,12 +1,12 @@
 const express = require('express')
- const router=express.Router()
+const router=express.Router()
 
- const {home} = require('../controller/controller')
+const {home} = require('../controller/controller')
 
  
 
 
- router.post('/get-token',home.createToken);
+router.post('/get-token',home.createToken);
   
 router.get('/test', home.test)
 
