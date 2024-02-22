@@ -1,5 +1,5 @@
 const express = require('express')
-const routes = require('./server/router/routers') 
+const routes = require('./src/router/routers') 
 const app = express()
 const bodyParser = require('body-parser');
 const port =process.env.PORT || 3001
@@ -15,7 +15,9 @@ const credentials = {
   cert: certificate,
  };
 
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
+app.use(express.json());
+
 app.use('/api',routes)
 
 
