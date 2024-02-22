@@ -7,7 +7,7 @@ const actions = {
       res.json('conectado');
     } catch (error) {
       console.error("Error en el controlador:", error);
-      res.status(500).json({ error: 'Error al obtener usuarios' });
+      res.status(500).json(error);
     }
   }
 }
