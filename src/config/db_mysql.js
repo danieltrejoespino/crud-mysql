@@ -4,7 +4,7 @@ const pool = mysql.createPool({
   host: '172.20.1.149',
   user: 'lresendiz',
   password: 'R3s3nd1z*',
-  database: 'servinventario',
+  database: 'api_online',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0

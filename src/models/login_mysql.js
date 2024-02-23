@@ -14,13 +14,27 @@ const testConn = {
 
 const User = { 
   obtenerTodos: async () => {
-      const [rows] = await pool.query('SELECT * FROM usuarios');
+      const [rows] = await pool.query('SELECT * FROM users');
       return rows;
   },
-  agregar: async (usuario) => {
-    const [result] = await pool.query('INSERT INTO usuarios SET ?', usuario);
-    return result;
-}
+  validarUsuario: async (usuario, password) => {
+    try {
+        // Primero, llama al procedimiento almacenado
+        await pool.query('CALL VALIDATE_USER(?, ?, @p_existe);', [usuario, password]);
+        
+        // Luego, selecciona el resultado de la llamada anterior
+        const [rows] = await pool.query('SELECT @p_existe AS existe;');
+
+        // Acceso al valor de 'existe'
+        const existe = rows[0].existe;
+
+        return existe;
+    } catch (error) {
+        console.error('Error al validar el usuario:', error);
+        throw error; // O manejar el error según sea necesario
+    }
+  }
+ 
 }
 
 

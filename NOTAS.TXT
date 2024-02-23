@@ -1,0 +1,29 @@
+CREATE DEFINER=`lresendiz`@`%` PROCEDURE `api_online`.`VALIDATE_USER`(
+    IN p_usuario VARCHAR(50),
+    IN p_password VARCHAR(50),
+    OUT p_existe BOOLEAN
+)
+BEGIN
+    DECLARE contador INT;
+    
+    SELECT COUNT(*) INTO contador 
+    FROM api_online.users 
+    WHERE USER_NAME = p_usuario AND USER_PASS = p_password
+    AND ACTIVO = 1  ;
+    
+    IF contador > 0 THEN
+        SET p_existe = TRUE;
+    ELSE
+        SET p_existe = FALSE;
+    END IF;
+END
+
+
+//   CREATE TABLE api_online.users (
+//     ID_USER INT AUTO_INCREMENT PRIMARY KEY,
+//     USER_NAME VARCHAR(50),
+//     USER_PASS VARCHAR(50),
+//     ID_PROFILE INT,
+//     ACTIVO INT
+// );
+
