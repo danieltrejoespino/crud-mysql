@@ -38,11 +38,17 @@ const actions_mysql = {
     }
   },
   insert_leads : async(req,res)=>{
-    // console.log(req.body);
+    
+    let datos= req.body
+
+    console.log(datos);
+    
+    
     if (Object.keys(req.body).length === 0) {
-      res.status(404).json('No puede ir un lead vacio')
+      res.status(404).json('No puedes hacer un insert vacio')
     }else{
-      try {            
+    
+       try {            
         const usuarioValido = await User.insertLeads(req.body);            
         
         console.log('-------',usuarioValido);  

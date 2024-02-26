@@ -42,8 +42,7 @@ const User = {
         throw error; // O manejar el error según sea necesario
     }
   },
-  insertLeads: async (data) => {
-    console.log(data);
+  insertLeads: async (data) => {    
     try {
         // Primero, llama al procedimiento almacenado
         await pool.query('CALL INSERT_LEADS(?, ?, @estatus_);', ['DANIEL', 'PRUEBA']);
