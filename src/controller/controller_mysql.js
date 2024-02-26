@@ -39,26 +39,28 @@ const actions_mysql = {
   },
   insert_leads : async(req,res)=>{
     // console.log(req.body);
-    const FECHA_LEADS = req.body.FECHA_LEADS
-    const NOMBRES = req.body.NOMBRES
-    try {            
-      const usuarioValido = await User.insertLeads(req.body);            
-      
-      console.log('-------',usuarioValido);  
-      if (usuarioValido) {
-        res.json('datos insertados')  
-      }    
-      else{
-        res.status(402).json('Error al insertar datos')
+    if (Object.keys(req.body).length === 0) {
+      res.status(404).json('No puede ir un lead vacio')
+    }else{
+      try {            
+        const usuarioValido = await User.insertLeads(req.body);            
+        
+        console.log('-------',usuarioValido);  
+        if (usuarioValido) {
+          res.json('datos insertados')  
+        }    
+        else{
+          res.status(402).json('Error al insertar datos')
+        }      
+
+      } catch (error) {
+          console.error("Error en el controlador mysql:", error);
+          res.status(500).json('ocurrio un error al insertar los datos')
+  
       }
-
-      
-
-    } catch (error) {
-        console.error("Error en el controlador mysql:", error);
-        res.status(500).json('ocurrio un error al insertar los datos')
-
-    }
+    }//fin else
+    
+    
   }
 
 }

@@ -21,6 +21,10 @@ const User = {
     const [rows] = await pool.query('SELECT * from api_online.SECRETKEY WHERE ACTIVO=1');
     return rows;
   },
+  commit: async () => {
+    const [rows] = await pool.query('commit');
+    return rows;
+  },
   validarUsuario: async (usuario, password) => {
     try {
         // Primero, llama al procedimiento almacenado
