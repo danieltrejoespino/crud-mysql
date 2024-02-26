@@ -20,21 +20,13 @@ const actions_mysql = {
       res.status(500).json(error);      
     }
   },
-  validateUser : async(req,res)=>{
-    try {
-      // const { usuario, password } = req.body; // Asumiendo que los datos vienen del cuerpo de la petición
-      const usuario='DANIEL'
-      const password = 1234
-      const usuarioValido = await User.validarUsuario(usuario, password);
-      
-      if (usuarioValido) {
-          res.json({ mensaje: 'Usuario válido' });
-      } else {
-          res.status(401).json({ mensaje: 'Usuario o contraseña incorrectos' });
-      }
+  validateUser : async(name,pass)=>{
+    try {            
+      const usuarioValido = await User.validarUsuario(name, pass);            
+      return usuarioValido;      
     } catch (error) {
-        console.error("Error en el controlador:", error);
-        res.status(500).json({ error: 'Error al validar el usuario' });
+        console.error("Error en el controlador mysql:", error);
+        return error
     }
   }
 

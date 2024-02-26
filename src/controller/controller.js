@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 
+const {actions_mysql} = require('../controller/controller_mysql')
+
 const secretKey = 'danieljosuetrejo';
 
 
@@ -11,27 +13,31 @@ const home = {
   testToken : (req,res) =>{
     res.json('con exito')
   },
-  createToken : (req,res) =>{
-
+  createToken : async (req,res) =>{
     const name = req.body.name
-    const correo = req.body.correo
-    console.log(name);
-    if (!name || !correo) {
+    const pass = req.body.pass
+    console.log(name.toUpperCase());
+    if (!name || !pass) {
       console.log('Faltan datos');
-      return res.status(403).json(`Faltan credenciales`);
-
+      return res.status(403).json(`Verifica que envies usuario y pass`);
     }
+
+    let resp = await actions_mysql.validateUser(name,pass)
+    console.log('----',resp);
+    if (resp) {      
+      const usuario = {      
+        nombre: name,
+        pass: pass
+      }      
+      const tiempoExpiracion = 8 * 60 * 60
+      const token = jwt.sign({ usuario }, secretKey, { expiresIn: tiempoExpiracion })
     
-    const usuario = {
-      id: 1,
-      nombre: name,
-      correo: correo
-    };  
-    
-    const tiempoExpiracion = 8 * 60 * 60;
-    const token = jwt.sign({ usuario }, secretKey, { expiresIn: tiempoExpiracion });
-  
-    res.json(token);
+      res.json(token);
+    } else {
+      res.status(500).json('Usuario o pass invalidos')
+    }
+
+
   },
   verifyToken : (req, res, next) => {  
     const bearerHeader = req.headers['authorization'];  
