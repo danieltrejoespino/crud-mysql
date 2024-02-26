@@ -17,7 +17,7 @@ router.get('/test-token', home.verifyToken, home.testToken);
 router.get('/test-mysql', actions_mysql.conn)
 router.get('/get_users', actions_mysql.check_user)
 
-router.post('/insert-leads',home.verifyToken, actions_mysql.conn)
+router.post('/insert-leads',home.verifyToken, actions_mysql.insert_leads)
 
 
 

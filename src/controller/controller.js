@@ -2,9 +2,6 @@ const jwt = require('jsonwebtoken');
 
 const {actions_mysql} = require('../controller/controller_mysql')
 
-const secretKey = 'danieljosuetrejo';
-
-
 const home = {
   test : (req,res) =>{
     res.json('prueba')
@@ -16,14 +13,17 @@ const home = {
   createToken : async (req,res) =>{
     const name = req.body.name
     const pass = req.body.pass
-    console.log(name.toUpperCase());
+    // console.log(name.toUpperCase());
     if (!name || !pass) {
       console.log('Faltan datos');
       return res.status(403).json(`Verifica que envies usuario y pass`);
     }
 
     let resp = await actions_mysql.validateUser(name,pass)
-    console.log('----',resp);
+    // console.log('----',resp);
+    let dataSK = await actions_mysql.get_skey()
+    let secretKey= dataSK[0].SK_NAME;
+    
     if (resp) {      
       const usuario = {      
         nombre: name,
@@ -39,12 +39,16 @@ const home = {
 
 
   },
-  verifyToken : (req, res, next) => {  
+  verifyToken : async (req, res, next) => {      
     const bearerHeader = req.headers['authorization'];  
     if (typeof bearerHeader !== 'undefined') {    
       const bearer = bearerHeader.split(' ');      
       const bearerToken = bearer[1];      
-      try {
+      try {        
+
+        let dataSK = await actions_mysql.get_skey()
+        let secretKey= dataSK[0].SK_NAME;
+
         const decoded = jwt.verify(bearerToken, secretKey);
         req.user = decoded;
         next(); 
