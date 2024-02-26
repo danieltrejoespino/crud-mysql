@@ -22,13 +22,13 @@ router.post('/insert-leads',home.verifyToken, actions_mysql.conn)
 
 
 
-// Manejar exepciones
+// Manejar excepciones
 router.use((req, res, next) => {
-  res.status(404).json('La ruta solicitada no se encuentra.');
+  res.status(404).json({"msg": "Ruta no encontrada"});
 });
 router.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json('Se produjo un error en el servidor.');
+  res.status(500).json({"msg": "Error interno"});
 });
 
 
