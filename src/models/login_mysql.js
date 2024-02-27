@@ -43,9 +43,11 @@ const User = {
     }
   },
   insertLeads: async (data) => {    
+    console.log(Object.values(data));
     try {
         // Primero, llama al procedimiento almacenado
-        await pool.query('CALL INSERT_LEADS(?, ?, @estatus_);', ['DANIEL', 'PRUEBA']);
+        // await pool.query('CALL INSERT_LEADS(?, ?, @estatus_);', ['DANIEL', 'PRUEBA',1]);
+        await pool.query('CALL INSERT_LEADS(?,?, ?, @estatus_);', Object.values(data));
         
         // Luego, selecciona el resultado de la llamada anterior
         const [rows] = await pool.query('SELECT @estatus_ AS existe;');
