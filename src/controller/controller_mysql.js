@@ -66,7 +66,7 @@ function fusionarObjetos(objetoNuevo) {
     "fecha_leads": "",
     "nombres": "",
     "apellido_paterno": "",
-    "apellido_materno": "",
+    // "apellido_materno": "",
     // "rfc": "",
     // "telefono": "",
     // "email": "",

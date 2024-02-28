@@ -43,22 +43,24 @@ const User = {
     }
   },
   insertLeads: async (data) => {    
-    console.log(Object.values(data));
+    const c =Object.values(data)
+    const columns = c.map(() => '?');
+
     try {
-        // Primero, llama al procedimiento almacenado
-        // await pool.query('CALL INSERT_LEADS(?, ?, @estatus_);', ['DANIEL', 'PRUEBA',1]);
-        await pool.query('CALL INSERT_LEADS(?,?, ?, @estatus_);', Object.values(data));
         
-        // Luego, selecciona el resultado de la llamada anterior
+        // await pool.query('CALL INSERT_LEADS(?, ?, @estatus_);', ['DANIEL', 'PRUEBA',1]);
+        await pool.query(`CALL INSERT_LEADS(${columns}, @estatus_);`, Object.values(data));
+        
+        
         const [rows] = await pool.query('SELECT @estatus_ AS existe;');
 
-        // Acceso al valor de 'existe'
+        
         const existe = rows[0].existe;
 
         return existe;
     } catch (error) {
         console.error('Error al validar el usuario:', error);
-        throw error; // O manejar el error según sea necesario
+        throw error; 
     }
   }
  
