@@ -45,10 +45,12 @@ const actions_mysql = {
     }else{
 
       datos.forEach(element => {  
-        const lead_completo = fusionarObjetos(element); 
- 
-        insert_datos(lead_completo)      
- 
+        
+          const lead_completo = fusionarObjetos(element); 
+          //console.log(lead_completo);
+          insert_datos(lead_completo)      
+        
+        
       });    
 
       res.json('datos insertados')  
@@ -73,7 +75,7 @@ function fusionarObjetos(objetoNuevo) {
     "tarjeta_solicitada": "",
     "score_buro": "",
     "tnkpage_aterrizaje": "",
-    "source/medio": "",
+    "source_medio": "",
     "cpid": "",
     "campana": "",
     "idunico": "",
@@ -137,11 +139,11 @@ function fusionarObjetos(objetoNuevo) {
     "wild_card_3" : "", 
     "arch" : "", 
     "id_origen_archivo" : "", 
-    " f_hig" : "", 
-    " hig_flag" : "", 
-    " operable" : "", 
-    " desc_no_op" : "", 
-    " f_arch" : "", 
+    "f_hig" : "", 
+    "hig_flag" : "", 
+    "operable" : "", 
+    "desc_no_op" : "", 
+    "f_arch" : "", 
     "h_arch" : ""
   }
   const resultado = {};
@@ -150,6 +152,8 @@ function fusionarObjetos(objetoNuevo) {
     
     if (leadsTemplate.hasOwnProperty(clave) && objetoNuevo.hasOwnProperty(clave)) {
        resultado[clave] = higiene(objetoNuevo[clave]);
+    }else{
+      resultado[clave] = leadsTemplate[clave]
     }
   }
   return resultado;

@@ -4,6 +4,20 @@ const {actions_mysql} = require('../controller/controller_mysql')
 
 const home = {
   test : (req,res) =>{
+    const data = [
+      {
+        "fecha_leads": "22/09/1996"
+      },
+      {        
+      }    ,{},{},{}
+    ]
+    // console.log(data[0].fecha_leads);
+
+    if (data[0].fecha_leads === undefined) {
+      console.log('sin datos');
+    } else {
+      console.log('con datos');
+    }
     res.json('prueba')
   },
   
