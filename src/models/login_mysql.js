@@ -45,22 +45,14 @@ const User = {
   insertLeads: async (data) => {    
     const c =Object.values(data)
     const columns = c.map(() => '?');
-
-    try {
-        
-        // await pool.query('CALL INSERT_LEADS(?, ?, @estatus_);', ['DANIEL', 'PRUEBA',1]);
-        await pool.query(`CALL INSERT_LEADS(${columns}, @estatus_);`, Object.values(data));
-        
-        
+    try {                
+        await pool.query(`CALL INSERT_LEADS(${columns}, @estatus_);`, Object.values(data));        
         const [rows] = await pool.query('SELECT @estatus_ AS existe;');
-
-        
         const existe = rows[0].existe;
-
         return existe;
     } catch (error) {
-        console.error('Error al validar el usuario:', error);
-        throw error; 
+        // return error        
+        return 'Error al insertar datos'
     }
   }
  

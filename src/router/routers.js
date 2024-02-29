@@ -4,13 +4,16 @@ const router=express.Router()
 const {home} = require('../controller/controller')
 const {actions_mysql} = require('../controller/controller_mysql')
 
- 
+// router.use((req, res, next) => {
+//   console.log('Solicitud recibida:', req.method, req.url, req.body);
+//   next();
+// });
 
 router.post('/get-token',home.createToken);
   
-router.get('/test', home.test)
+router.post('/test', home.testToken)
 
-router.get('/test-token', home.verifyToken, home.testToken);
+// router.get('/test-token', home.verifyToken, home.testToken);
 
 
 // mysql routes

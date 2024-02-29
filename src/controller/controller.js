@@ -3,34 +3,22 @@ const jwt = require('jsonwebtoken');
 const {actions_mysql} = require('../controller/controller_mysql')
 
 const home = {
-  test : (req,res) =>{
-    const data = [
-      {
-        "fecha_leads": "22/09/1996"
-      },
-      {        
-      }    ,{},{},{}
-    ]
-    // console.log(data[0].fecha_leads);
-
-    if (data[0].fecha_leads === undefined) {
-      console.log('sin datos');
-    } else {
-      console.log('con datos');
-    }
+  test : (req,res) =>{   
     res.json('prueba')
-  },
-  
+  },  
   testToken : (req,res) =>{
+    const name = req.body.name
+    const pass = req.body.pass
+    console.log(name,pass);
     res.json('con exito')
   },
   createToken : async (req,res) =>{
     const name = req.body.name
     const pass = req.body.pass
-    // console.log(name.toUpperCase());
+    console.log(name,pass);
     if (!name || !pass) {
       console.log('Faltan datos');
-      return res.status(403).json(`Verifica que envies usuario y pass`);
+      return res.status(403).json({ rspta: 'Faltan datos para generar el token' });
     }
 
     let resp = await actions_mysql.validateUser(name,pass)
@@ -46,9 +34,9 @@ const home = {
       const tiempoExpiracion = 8 * 60 * 60
       const token = jwt.sign({ usuario }, secretKey, { expiresIn: tiempoExpiracion })
     
-      res.json(token);
+      res.json({token:token});
     } else {
-      res.status(500).json('Usuario o pass invalidos')
+      res.status(200).json({ rspta: 'Usuario o pass invalidos' })
     }
 
 
@@ -67,10 +55,10 @@ const home = {
         req.user = decoded;
         next(); 
       } catch (error) {
-        return res.status(401).send({ message: 'Token inválido' });
+        return res.status(401).send({ rspta: 'Token invalido' });
       }
     } else {    
-      return res.status(403).send({ message: 'Se requiere un token para autenticación' });
+      return res.status(403).send({ rspta: 'Se requiere un token para autenticación' });
     }
   }
 }
