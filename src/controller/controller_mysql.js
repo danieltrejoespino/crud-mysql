@@ -47,42 +47,7 @@ const actions_mysql = {
         success: true,        
         detailData: []
       } 
-      let newData; 
-
-      // datos.forEach(async (element) => {          
-      //     const lead_completo = fusionarObjetos(element);                  
-          
-      //     await User.insertLeads(lead_completo)
-      //     console.log(User);
-      //     .then(resultado => {
-      //       if (resultado == 1) {
-      //         const newData = {
-      //           idunico: lead_completo.idunico,
-      //           success: true,
-      //           message : ''
-      //         };              
-      //         rspta.detailData.push(newData)
-
-      //         User.insertLog('Exito al insertar datos',0)
-                            
-      //       } //fin if
-      //       else{                          
-      //         const newData = {
-      //           idunico: lead_completo.idunico,
-      //           success: false,
-      //           message : 'Error al insertar datos'
-      //         };              
-      //         rspta.detailData.push(newData)
-              
-      //         User.insertLog(`Error al insertar datos - idunico: ${lead_completo.idunico}`,1)
-      //       }
-
-      //     })
-      //     .catch(error => {
-      //       console.error(error); 
-      //     })          
-      // }) 
-
+      let newData;  
       for (const iterator of datos) {        
         let lead_completo = fusionarObjetos(iterator);                          
         let data= await User.insertLeads(lead_completo)
@@ -106,7 +71,6 @@ const actions_mysql = {
 
       }
       res.status(200).json(rspta)      
-
       
     }//fin else    
     
