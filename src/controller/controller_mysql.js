@@ -1,4 +1,4 @@
- const {testConn,User} = require('../models/login_mysql')
+ const {testConn,User} = require('../models/actions_mysql')
 
 const actions_mysql = {
   conn : async (req,res) =>{        
@@ -43,28 +43,76 @@ const actions_mysql = {
     if (Object.keys(datos).length === 0) {      
       res.status(200).json({ rspta: 'No puedes hacer un insert vacio' })
     }else{
-      datos.forEach(element => {          
-          const lead_completo = fusionarObjetos(element);                  
-          
-          User.insertLeads(lead_completo)
-          // insert_datos(lead_completo)
-          .then(resultado => {
-            console.log('---',resultado); 
-          })
-          .catch(error => {
-            console.error(error); 
-          });
+      const rspta = {
+        success: true,        
+        detailData: []
+      } 
+      let newData; 
 
-      });    
+      // datos.forEach(async (element) => {          
+      //     const lead_completo = fusionarObjetos(element);                  
+          
+      //     await User.insertLeads(lead_completo)
+      //     console.log(User);
+      //     .then(resultado => {
+      //       if (resultado == 1) {
+      //         const newData = {
+      //           idunico: lead_completo.idunico,
+      //           success: true,
+      //           message : ''
+      //         };              
+      //         rspta.detailData.push(newData)
+
+      //         User.insertLog('Exito al insertar datos',0)
+                            
+      //       } //fin if
+      //       else{                          
+      //         const newData = {
+      //           idunico: lead_completo.idunico,
+      //           success: false,
+      //           message : 'Error al insertar datos'
+      //         };              
+      //         rspta.detailData.push(newData)
+              
+      //         User.insertLog(`Error al insertar datos - idunico: ${lead_completo.idunico}`,1)
+      //       }
+
+      //     })
+      //     .catch(error => {
+      //       console.error(error); 
+      //     })          
+      // }) 
+
+      for (const iterator of datos) {        
+        let lead_completo = fusionarObjetos(iterator);                          
+        let data= await User.insertLeads(lead_completo)
+        if (data) {
+          await log_('Exito al guardar datos')
+          newData = {
+            idunico: lead_completo.idunico,
+            success: true,
+            message : ''
+          }              
+          rspta.detailData.push(newData)
+        } else {
+          await log_('Error al guardar datos')
+          newData = {
+            idunico: lead_completo.idunico,
+            success: false,
+            message : 'Error al insertar el registro'
+          }              
+          rspta.detailData.push(newData)
+        }
+
+      }
+      res.status(200).json(rspta)      
+
       
-      res.status(200).json({ rspta: 'Datos insertados' })      
     }//fin else    
     
   }
 
 }
-
- 
 
 function fusionarObjetos(objetoNuevo) {
   const leadsTemplate =   {
@@ -168,14 +216,15 @@ const higiene = (data) => {
   return hData
 }
 
-async function insert_datos(lead_completo){
-  try {            
-    const insertLeads = await User.insertLeads(lead_completo); 
-    return insertLeads    
-  } catch (error) {
-      return false      
+async function log_ (data,opcion) {
+  let r= await User.insertLog(data,opcion)
+  if (r) {
+    console.log('Exito: ',data);
+  } else {
+    console.log('Error: ',data);
   }
 }
+
 
 
 module.exports = {actions_mysql}

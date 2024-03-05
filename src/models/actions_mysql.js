@@ -42,6 +42,18 @@ const User = {
         throw error; // O manejar el error según sea necesario
     }
   },
+  insertLog: async (texto, estatus) => {
+    try {
+      
+      await pool.query('INSERT INTO api_online.LOG_API (TEXTO,ESTATUS) VALUES (?, ?)', [texto, estatus]);
+      return true
+
+    } catch (error) {
+
+      console.error('Error al insertar usuario:', error);
+      return false;
+    }
+  },
   insertLeads: async (data) => {    
     const c =Object.values(data)
     const columns = c.map(() => '?');
@@ -52,7 +64,7 @@ const User = {
         return existe;
     } catch (error) {
         // return error        
-        return 'Error al insertar datos'
+        return 0
     }
   }
  
