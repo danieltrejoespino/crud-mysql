@@ -37,9 +37,8 @@ const actions_mysql = {
         return error
     }
   },
-  insert_leads : async(req,res)=>{    
-    const datos= req.body
-     
+  insert_leads : async(req,res)=>{        
+    const datos= req.body     
     if (Object.keys(datos).length === 0) {      
       res.status(200).json({ rspta: 'No puedes hacer un insert vacio' })
     }else{
