@@ -33,8 +33,9 @@ const actions_mysql = {
       const usuarioValido = await User.validarUsuario(name, pass);            
       return usuarioValido;      
     } catch (error) {
-        console.error("Error en el controlador mysql:", error);
-        return error
+        // console.error("Error en el controlador mysql:", error);
+        // return error
+        return 0
     }
   },
   insert_leads : async(req,res)=>{        

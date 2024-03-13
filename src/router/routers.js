@@ -11,7 +11,8 @@ const {actions_mysql} = require('../controller/controller_mysql')
 
 router.post('/get-token',home.createToken);
   
-router.post('/test', home.testToken)
+// router.post('/test', home.testToken)
+router.get('/test', home.testToken)
 
 // router.get('/test-token', home.verifyToken, home.testToken);
 

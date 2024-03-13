@@ -6,18 +6,16 @@ const home = {
   test : (req,res) =>{   
     res.json('prueba')
   },  
-  testToken : (req,res) =>{
-    const name = req.body.name
-    const pass = req.body.pass
-    console.log(name,pass);
-    res.json('con exito')
+  testToken : (req,res) =>{           
+    res.status(200).send({ rspta: 'API corriendo' });
+
   },
   createToken : async (req,res) =>{
     const name = req.body.name
     const pass = req.body.pass
-    console.log(name,pass);
+    // console.log(name,pass);
     if (!name || !pass) {
-      console.log('Faltan datos');
+      // console.log('Faltan datos');
       return res.status(403).json({ rspta: 'Faltan datos para generar el token' });
     }
 
