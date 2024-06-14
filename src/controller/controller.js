@@ -4,10 +4,10 @@ const {actions_mysql} = require('../controller/controller_mysql')
 
 const home = {
   test : (req,res) =>{   
-    res.json('prueba')
+    res.status(200).send({ rspta: 'API LISTENING' });
   },  
   testToken : (req,res) =>{           
-    res.status(200).send({ rspta: 'API corriendo' });
+    res.status(200).send({ rspta: 'VALID TOKEN' });
 
   },
   createToken : async (req,res) =>{
@@ -16,7 +16,7 @@ const home = {
     // console.log(name,pass);
     if (!name || !pass) {
       // console.log('Faltan datos');
-      return res.status(403).json({ rspta: 'Faltan datos para generar el token' });
+      return res.status(403).json({ rspta: 'MISSING DATA TO GENERATE TOKEN' });
     }
 
     let resp = await actions_mysql.validateUser(name,pass)
@@ -34,7 +34,7 @@ const home = {
     
       res.json({token:token});
     } else {
-      res.status(200).json({ rspta: 'Usuario o pass invalidos' })
+      res.status(200).json({ rspta: 'INVALID USER OR PASSWORD' })
     }
 
 
@@ -53,10 +53,10 @@ const home = {
         req.user = decoded;
         next(); 
       } catch (error) {
-        return res.status(401).send({ rspta: 'Token invalido' });
+        return res.status(401).send({ rspta: 'INVALID TOKEN' });
       }
     } else {    
-      return res.status(403).send({ rspta: 'Se requiere un token para autenticación' });
+      return res.status(403).send({ rspta: 'A TOKEN IS REQUIRED FOR AUTHENTICATION.' });
     }
   }
 }

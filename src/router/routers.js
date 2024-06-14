@@ -1,27 +1,32 @@
 const express = require('express')
 const router=express.Router()
+const bodyParser = require('body-parser')
 
 const {home} = require('../controller/controller')
 const {actions_mysql} = require('../controller/controller_mysql')
 
-// router.use((req, res, next) => {
-//   console.log('Solicitud recibida:', req.method, req.url, req.body);
-//   next();
-// });
+router.use(bodyParser.json())
+
+router.use((req, res, next) => {
+  console.log('----------------------------');
+  console.log(`DEV => Tipo: ${req.method} Ruta: ${req.url} IP: ${req.ip}`);
+  console.log(req.body);
+  console.log('----------------------------');
+  next();
+});
+
+
+router.post('/test', home.test)
+ 
 
 router.post('/get-token',home.createToken);
   
-// router.post('/test', home.testToken)
-router.get('/test', home.testToken)
 
-// router.get('/test-token', home.verifyToken, home.testToken);
+router.post('/test-token', home.verifyToken, home.testToken);
 
-
-// mysql routes
-router.get('/test-mysql', actions_mysql.conn)
-router.get('/get_users', actions_mysql.check_user)
 
 router.post('/insert-leads',home.verifyToken, actions_mysql.insert_leads)
+
 
 
 

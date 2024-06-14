@@ -1,8 +1,210 @@
+CREATE DEFINER=`lresendiz`@`%` PROCEDURE `api_online`.`INSERT_LEADS`(
+    IN FECHA_LEADS VARCHAR(50),
+    IN NOMBRES VARCHAR(50),
+    OUT estatus_ BOOLEAN
+)
+BEGIN
+    DECLARE contador INT;
+    SET contador = 1;
+  
+   
+    INSERT INTO api_online.LEADS_ONLINE (FECHA_LEADS,NOMBRES) VALUES (FECHA_LEADS,NOMBRES); 
+
+   
+   
+    
+    IF contador > 0 THEN
+        SET estatus_ = TRUE;
+    ELSE
+        SET estatus_ = FALSE;
+    END IF;
+   
+       COMMIT;
+
+END
+------------------------------------------------------------------
+CREATE DEFINER=`lresendiz`@`%` PROCEDURE `api_online`.`VALIDATE_USER`(
+    IN p_usuario VARCHAR(50),
+    IN p_password VARCHAR(50),
+    OUT p_existe BOOLEAN
+)
+BEGIN
+    DECLARE contador INT;
+    
+    SELECT COUNT(*) INTO contador 
+    FROM api_online.USERS 
+    WHERE UPPER(USER_NAME)  = p_usuario AND USER_PASS = p_password
+    AND ACTIVO = 1  ;
+    
+    IF contador > 0 THEN
+        SET p_existe = TRUE;
+    ELSE
+        SET p_existe = FALSE;
+    END IF;
+END
+----------------------------------------------------------------------------
+
+//   CREATE TABLE api_online.users (
+//     ID_USER INT AUTO_INCREMENT PRIMARY KEY,
+//     USER_NAME VARCHAR(50),
+//     USER_PASS VARCHAR(50),
+//     ID_PROFILE INT,
+//     ACTIVO INT
+// );
+
+---------------------------------------------------------------------------------------
+
+CREATE TABLE api_online.secretKey (
+    ID_SK INT AUTO_INCREMENT PRIMARY KEY,
+    SK_NAME VARCHAR(200),
+    ACTIVO INT
+);
+
+
+--tabla para guardar los leads
+
+CREATE TABLE api_online.LEADS_ONLINE (
+ID_LEAD INT AUTO_INCREMENT PRIMARY KEY, 
+FECHA_LEADS                   VARCHAR(80),  
+NOMBRES                       VARCHAR(80),  
+A_PATERNO                     VARCHAR(80),  
+A_MATERNO                     VARCHAR(80),  
+RFC                           VARCHAR(80),  
+TELEFONO                      VARCHAR(80),  
+EMAIL                         VARCHAR(80),  
+TARJETA_SOLICITADA            VARCHAR(80),  
+SCORE_BURO                    VARCHAR(80),  
+TNKPAGE_ATERRIZAJE            VARCHAR(80),  
+SOURCE_MEDIO                  VARCHAR(80),  
+CPID                          VARCHAR(50),  
+CAMPANA                       VARCHAR(150), 
+ID_UNICO                      VARCHAR(150), 
+ORIGEN                        VARCHAR(80),  
+COMENTARIOS_1                 VARCHAR(255), 
+COMENTARIOS_2                 VARCHAR(255), 
+COMENTARIOS_3                 VARCHAR(255), 
+COMENTARIOS_4                 VARCHAR(255), 
+COMENTARIOS_5                 VARCHAR(255), 
+COMENTARIOS_6                 VARCHAR(255), 
+COMENTARIOS_7                 VARCHAR(255), 
+COMENTARIOS_8                 VARCHAR(255), 
+COMENTARIOS_9                 VARCHAR(255), 
+COMENTARIOS_10                VARCHAR(255), 
+SUSCRIPTION_TYPE              VARCHAR(100), 
+USER_AGENT                    VARCHAR(80),  
+FBC                           VARCHAR(270), 
+FBP                           VARCHAR(270), 
+TELEFONO_SECUNDARIO           VARCHAR(80),  
+SEXO                          VARCHAR(10),  
+ESTUDIOS                      VARCHAR(50),  
+PAIS_NACIMIENTO               VARCHAR(20),  
+ESTADO_NACIMIENTO             VARCHAR(20),  
+NACIONALIDAD                  VARCHAR(20),  
+DATOS_PERSONALES_EMAIL        VARCHAR(3),   
+DATOS_VIA_TELEFONO            VARCHAR(3),   
+CALLE                         VARCHAR(150), 
+NUM_EXT                       VARCHAR(15),  
+NUM_INT                       VARCHAR(15),  
+COLONIA                       VARCHAR(80),  
+CODIGO_POSTAL                 VARCHAR(80),  
+MUNICIPIO                     VARCHAR(80),  
+ESTADO_RESIDENCIA             VARCHAR(80),  
+TIEMPO_RESIDENCIA             VARCHAR(20),  
+COMPANIA                      VARCHAR(70),  
+TIPO_INDUSTRIA                VARCHAR(20),  
+TIEMPO_C_EMPRESA              VARCHAR(70),  
+PUESTO                        VARCHAR(50),  
+INGRESOS                      VARCHAR(255),    
+FUENTE_INGRESOS               VARCHAR(30),  
+TARJETAS_CREDITO              VARCHAR(80),  
+DIGITOS_TARJETA               VARCHAR(20),  
+CREDITO_AUTO                  VARCHAR(20),  
+HIPOTECA                      VARCHAR(20),  
+COMENTARIOS_11                VARCHAR(100), 
+COMENTARIOS_12                VARCHAR(100), 
+COMENTARIOS_13                VARCHAR(100), 
+SEGURO                        VARCHAR(50),  
+PLAN                          VARCHAR(15),  
+MODALIDAD                     VARCHAR(20),  
+ARTICULO_139                  VARCHAR(3),   
+139_MOTIVO                    VARCHAR(50),  
+ARTICULO_492_FUNCIONES        VARCHAR(3),   
+492_PUESTO                    VARCHAR(60),  
+492_ACCIONISTA_SOCIO          VARCHAR(3),   
+492_NOMBRE_SOCIEDAD           VARCHAR(255), 
+AUTORIZACION                  VARCHAR(255), 
+492_VIA_EMAIL                 VARCHAR(15),  
+WILD_CARD_1                   VARCHAR(50),  
+WILD_CARD_2                   VARCHAR(30),  
+WILD_CARD_3                   VARCHAR(30),  
+ARCH                          VARCHAR(80),  
+ID_ORIGEN_ARCHIVO             VARCHAR(80),            
+F_HIG                         VARCHAR(80),  
+HIG_FLAG                      VARCHAR(255),    
+OPERABLE                      VARCHAR(255),    
+DESC_NO_OP                    VARCHAR(80),  
+F_ARCH                        VARCHAR(80),  
+H_ARCH                        VARCHAR(80)  
+);
+
+
+______________________________________________________________________________
+
+
+peticion 
+
+
+
+let data = 
+  {
+    "name": "daniel",
+    "pass": 12341
+  }
+
+
+let requestOptions = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(data)
+};
+
+fetch('https://172.20.2.57:3001/api_leads_online/get-token', requestOptions)
+  .then(response => {    
+    if (!response.ok) {
+      throw new Error('Error en la solicitud: ' + response.statusText);
+    }    
+    return response.json();
+  })
+  .then(data => {    
+    console.log(data);
+  })
+  .catch(error => {    
+    console.error('Error:', error);
+  });
+
+
+------------------------------------------------------------------------------------------------------------
 
 INSERT	INTO api_online.USERS (USER_NAME,USER_PASS,ID_PROFILE,ACTIVO)
 VALUES ('AMEX_LEADS','$2a$12$oJjNGhRojSbc2oAAOlodku1/I1wZSJKReeQfRPWO8jtdicW5YG5hO',1,1)
+llave amex :$2a$12$oJjNGhRojSbc2oAAOlodku1/I1wZSJKReeQfRPWO8jtdicW5YG5hO
 
 
-Modificar procedimiento VALIDATE_USER 
-IN p_password VARCHAR(250),
+ 
+llave KONG
+$2a$12$yG5JfPu.liqCOU56lftOnOErrUWVkJPiiw7U1Uu1VERvyeLHSXzUC
 
+
+
+ ip impulse 
+post http://10.40.10.2:8000/insert-leads
+
+
+
+
+peticion curl 
+
+curl --location --request POST 'http://10.40.10.2:8000/test2' \
+--header 'apikey: $2a$12$yG5JfPu.liqCOU56lftOnOErrUWVkJPiiw7U1Uu1VERvyeLHSXzUC'
