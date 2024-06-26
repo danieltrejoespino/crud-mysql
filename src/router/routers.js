@@ -15,6 +15,15 @@ router.use((req, res, next) => {
   next();
 });
 
+router.use((req, res, next) => {
+  const originalJson = res.json;
+  res.json = function (body) {
+      console.log('Respuesta enviada:', body);
+      return originalJson.call(this, body);
+  };
+  next();
+});
+
 
 router.post('/test', home.test)
  
@@ -26,6 +35,7 @@ router.post('/test-token', home.verifyToken, home.testToken);
 
 
 router.post('/insert-leads',home.verifyToken, actions_mysql.insert_leads)
+
 
 
 

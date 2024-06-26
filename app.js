@@ -1,7 +1,6 @@
 const express = require('express')
 const routes = require('./src/router/routers') 
 const app = express()
-const bodyParser = require('body-parser');
 const port =process.env.PORT || 3001
 const https = require('https');
 const fs = require('fs');
@@ -34,4 +33,5 @@ const server = https.createServer(credentials,app);
 
 server.listen(port,(req,res)=>{
   console.log(`Servidor corriendo en puerto: ${port}`);
+  console.log(`Example https://172.20.2.57:3001/api_leads_online/test`)
 })

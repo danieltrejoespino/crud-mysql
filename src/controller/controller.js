@@ -1,9 +1,13 @@
 const jwt = require('jsonwebtoken');
-
 const {actions_mysql} = require('../controller/controller_mysql')
+const {webhookImp} = require('./controller_webhook')
+
 
 const home = {
-  test : (req,res) =>{   
+  test : async (req,res) =>{   
+    const wh= await webhookImp.test({ rspta: 'API LISTENING' })
+    console.log(wh)
+    
     res.status(200).send({ rspta: 'API LISTENING' });
   },  
   testToken : (req,res) =>{           
