@@ -20,7 +20,7 @@ const home = {
     }
 
     let resp = await actions_mysql.validateUser(name,pass)
-    // console.log('----',resp);
+    console.log('----',resp);
     let dataSK = await actions_mysql.get_skey()
     let secretKey= dataSK[0].SK_NAME;
     
@@ -34,7 +34,7 @@ const home = {
     
       res.json({token:token});
     } else {
-      res.status(200).json({ rspta: 'INVALID USER OR PASSWORD' })
+      res.status(401).json({ rspta: 'INVALID USER OR PASSWORD' })
     }
 
 
