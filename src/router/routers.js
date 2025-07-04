@@ -7,13 +7,13 @@ const {actions_mysql} = require('../controller/controller_mysql')
 
 router.use(bodyParser.json())
 
-router.use((req, res, next) => {
-  console.log('----------------------------');
-  console.log(`DEV => Tipo: ${req.method} Ruta: ${req.url} IP: ${req.ip}`);
-  console.log(req.body);
-  console.log('----------------------------');
-  next();
-});
+// router.use((req, res, next) => {
+//   console.log('----------------------------');
+//   console.log(`DEV => Tipo: ${req.method} Ruta: ${req.url} IP: ${req.ip}`);
+//   console.log(req.body);
+//   console.log('----------------------------');
+//   next();
+// });
 
 router.use((req, res, next) => {
   const originalJson = res.json;

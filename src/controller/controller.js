@@ -5,8 +5,8 @@ const {webhookImp} = require('./controller_webhook')
 
 const home = {
   test : async (req,res) =>{   
-    const wh= await webhookImp.test({ rspta: 'API LISTENING' })
-    console.log(wh)
+    // const wh= await webhookImp.test({ rspta: 'API LISTENING' })
+    // console.log(wh)
     
     res.status(200).send({ rspta: 'API LISTENING' });
   },  

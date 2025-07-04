@@ -21,7 +21,7 @@ const actions_mysql = {
   check_user : async (req,res) => {
     try {
       const data =await User.obtenerTodos()
-      console.log(data)
+      // console.log(data)
       res.json(data)
     } catch (error) {
       console.error("Error en el controlador:", error);
@@ -33,7 +33,7 @@ const actions_mysql = {
       const usuarioValido = await User.validarUsuario(name, pass);            
       return usuarioValido;      
     } catch (error) {
-        // console.error("Error en el controlador mysql:", error);
+        console.error("Error en el controlador mysql:", error);
         // return error
         return 0
     }
@@ -51,7 +51,7 @@ const actions_mysql = {
       for (const iterator of datos) {        
         let lead_completo = fusionarObjetos(iterator);                          
         let data= await User.insertLeads(lead_completo)
-        console.log(data)
+        // console.log(data)
         if (data) {
           await log_('Exito al guardar datos')
           newData = {
@@ -190,7 +190,7 @@ const higiene = (data) => {
 async function log_ (data,opcion) {
   let r= await User.insertLog(data,opcion)
   if (r) {
-    console.log('Exito: ',data);
+    // console.log('Exito: ',data);
   } else {
     console.log('Error: ',data);
   }
